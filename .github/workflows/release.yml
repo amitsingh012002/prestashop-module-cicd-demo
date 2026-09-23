@@ -1,0 +1,45 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Install production dependencies only
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Package the module
+        run: |
+          mkdir -p build/mymodule
+          rsync -a --exclude-from='.distignore' ./ build/mymodule/
+          cd build && zip -r mymodule.zip mymodule
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mymodule
+          path: build/mymodule.zip
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: mymodule
+          path: build
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: build/mymodule.zip
+          generate_release_notes: true

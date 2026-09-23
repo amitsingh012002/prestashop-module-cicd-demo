@@ -1,0 +1,9 @@
+tests/
+.github/
+node_modules/
+.git/
+.gitignore
+.distignore
+phpunit.xml.dist
+composer.lock
+.phpunit.result.cache

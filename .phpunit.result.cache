@@ -1,0 +1,1 @@
+{"version":1,"defects":[],"times":{"MyModule\\Tests\\PriceCalculatorTest::testAppliesA20PercentDiscount":0.008,"MyModule\\Tests\\PriceCalculatorTest::testRejectsANegativePercent":0.001}}
