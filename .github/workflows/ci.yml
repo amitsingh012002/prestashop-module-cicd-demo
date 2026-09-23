@@ -7,14 +7,13 @@ on:
 
 jobs:
   lint:
-    name: PHP Lint (${{ matrix.php }})
+    name: PHP Lint
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php: ['7.4', '8.1', '8.3']
     steps:
       - uses: actions/checkout@v4
-      - uses: prestashop/github-action-php-lint/${{ matrix.php }}@master
+      - uses: prestashop/github-action-php-lint/7.4@master
+      - uses: prestashop/github-action-php-lint/8.1@master
+      - uses: prestashop/github-action-php-lint/8.3@master
 
   cs-fixer:
     name: Coding Standards
